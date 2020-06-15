@@ -39,8 +39,8 @@ class test_wifi_manager(unittest.TestCase):
 
     def test_get_ir_sensor_data(self):
         wifi_module=wifi_manager("192.168.0.1",1)
-        wifi_module.get_ir_sensor_data(1024)
-        expt_ans=1024
+        wifi_module.get_ir_sensor_data(1)
+        expt_ans=1
         self.assertEqual(wifi_module.ir_sensor_data,expt_ans)
 
 if __name__ == '__main__':
