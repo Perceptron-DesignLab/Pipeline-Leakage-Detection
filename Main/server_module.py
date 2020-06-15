@@ -19,7 +19,7 @@ class cloud_manager():
     def process_water_sensor_data(self):
         if self.water_sensor_data==0:
             return "Dry"
-        elif self.water_sensor_data < 400:
+        elif self.water_sensor_data < 500:
             emailManager = Email_Manager()
             msg = "Partially Submerged at location " +  str(self.sensor_id) + " with ip address " + str(self.lookup_table[self.sensor_id])
             rcvem = "ankitkumar56666@gmail.com"
