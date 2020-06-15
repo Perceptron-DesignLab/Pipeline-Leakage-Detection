@@ -24,7 +24,7 @@ class water_sensor_data_collection:
         return self.water_data
 
     def get_delay(self):
-        if(self.water_data > 400):
+        if(self.water_data > 500):
             self.delay = 5
         else :
             self.delay = 30
