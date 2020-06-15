@@ -15,7 +15,7 @@ class test_water_sensor_data_collection(unittest.TestCase):
         expt_ans=30
         self.assertEqual(water_sensor.get_delay(),expt_ans)
 
-        water_sensor=water_sensor_data_collection(450,1)
+        water_sensor=water_sensor_data_collection(550,1)
         expt_ans=5
         self.assertEqual(water_sensor.get_delay(),expt_ans)
 
