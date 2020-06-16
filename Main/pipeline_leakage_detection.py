@@ -1,6 +1,6 @@
 import csv
 import os
-
+MidLevel=500
 path =  os.getcwd() + "/file.csv"
 Mailpath = os.getcwd() + "/body.csv"
 Data = [[0,0],[0,0]]
@@ -43,7 +43,7 @@ class water_sensor_data_collection:
         return self.water_data
 
     def get_delay(self):
-        if(self.water_data > 500):
+        if(self.water_data > MidLevel):
             self.delay = 5
         else :
             self.delay = 30
