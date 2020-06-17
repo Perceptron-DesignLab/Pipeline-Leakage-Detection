@@ -68,8 +68,7 @@ class ir_sensor_data_collection:
         return self.ida
 
 class wifi_manager():
-    def __init__(self,ip_address,sensor_id):
-        self.ip_address=ip_address
+    def __init__(self,sensor_id):
         self.sensor_id=sensor_id
 
     def get_water_sensor_data(self,water_data):
@@ -84,7 +83,7 @@ def ir_sensor():
     sensor_data=int(input("Enter IR Sensor data : "))
     Data[sensor_id-1][0] = sensor_data
     ir_sensor_1=ir_sensor_data_collection(sensor_data,sensor_id)
-    wifi_manager_1=wifi_manager("192.168.0.1",sensor_id)
+    wifi_manager_1=wifi_manager(sensor_id)
     wifi_manager_1.get_ir_sensor_data(ir_sensor_1.ir_data)
     print("data recieved in wifi_module is ",wifi_manager_1.ir_sensor_data)
     
@@ -95,7 +94,7 @@ def water_sensor():
     Data[sensor_id-1][1] = sensor_data
     water_sensor_1=water_sensor_data_collection(sensor_data,sensor_id)
     print("delay is ",water_sensor_1.get_delay()," minutes")
-    wifi_manager_1=wifi_manager("192.168.0.1",1)
+    wifi_manager_1=wifi_manager(1)
     wifi_manager_1.get_water_sensor_data(water_sensor_1.water_data)
     print("data recieved in wifi_module is ",wifi_manager_1.water_sensor_data)
 
