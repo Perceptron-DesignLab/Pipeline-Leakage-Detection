@@ -1,6 +1,7 @@
 import smtplib
 import csv
 import os
+import time
 
 path = os.getcwd() + "/file.csv"
 Mailpath = os.getcwd() + "/body.csv"
@@ -13,8 +14,10 @@ MidLevel = 500
 ServerEmail = "perceptronfordesignlab@gmail.com"
 ServerPassword = "Perceptron@1234"
 MailSent = "Email Sent Successfully"
-ReceiverMail = "ankitkumar56666@gmail.com"
-Sensor_ids=[1,2]
+ReceiverMail = "hitmanabhishek089@gmail.com"
+HeaderSubject = "Pipeline Leakage Detection"
+Sensor_ids=[1,2,3]
+Delay=30
 
 class Connection:
     def __init__(self,path):
@@ -51,12 +54,15 @@ class cloud_manager():
         elif self.water_sensor_data < MidLevel:
             emailManager = Email_Manager()
             msg = MailBody[0][0] +'\n' + MailBody[0][1] + str(self.lookup_table[self.sensor_id - 1])+'.' +'\n' +MailBody[0][2] + Partial +'\n'+ MailBody[0][3]+'\n'+MailBody[0][4]
-            emailManager.send_email(ReceiverMail, msg)
+            message = 'Subject: {}\n\n{}'.format(HeaderSubject, msg)
+            emailManager.send_email(ReceiverMail, message)
             return Partial
         else:
             emailManager = Email_Manager()
             msg = MailBody[0][0] +'\n' + MailBody[0][1] + str(self.lookup_table[self.sensor_id - 1])+'.' +'\n' +MailBody[0][2] + Full +'\n'+ MailBody[0][3]+'\n'+MailBody[0][4]
-            emailManager.send_email(ReceiverMail, msg)
+            message = 'Subject: {}\n\n{}'.format(HeaderSubject, msg)
+            emailManager.send_email(ReceiverMail, message)
+            Delay=5
             return Full
     
 
@@ -64,7 +70,8 @@ class cloud_manager():
         if self.ir_sensor_data==1:
             emailManager = Email_Manager()
             msg = MailBody[1][0] + '\n' + MailBody[1][1] + str(self.lookup_table[self.sensor_id - 1]) + '\n' + MailBody[1][2] + '\n' + MailBody[1][3]
-            emailManager.send_email(ReceiverMail, msg)
+            message = 'Subject: {}\n\n{}'.format(HeaderSubject, msg)
+            emailManager.send_email(ReceiverMail, message)
             return Obstacle
         else:
             return NoObstacle
@@ -88,26 +95,33 @@ def process_ir_sensor():
     for sensor_id in Sensor_ids:
         sensor_data=int(Data[sensor_id-1][0])
         cloud_manager_1.get_ir_sensor_data(sensor_data,sensor_id)
-        print(sensor_id,cloud_manager_1.process_ir_sensor_data())
+        print(cloud_manager_1.process_ir_sensor_data()," at ir sensor",sensor_id)
 
 def process_water_sensor():
     for sensor_id in Sensor_ids:
         sensor_data=int(Data[sensor_id-1][1])
         cloud_manager_1.get_water_sensor_data(sensor_data,sensor_id)
-        print(sensor_id,cloud_manager_1.process_water_sensor_data())
+        print("sensor",sensor_id,"is",cloud_manager_1.process_water_sensor_data())
 
 
 
-Data = [[0,0],[0,0]]
-MailBody =[["x","y"]]
-newConnection = Connection(path)
-newConnection.read_csv_file(path)
-Data = newConnection.list_of_list
-print(Data)
-newConnection1 = Connection(Mailpath)
-newConnection1.read_csv_file(Mailpath)
-MailBody = newConnection1.list_of_list
+while True :
+    if(os.path.exists(path) and os.path.exists(Mailpath)):
+        break
+
+
     
 
-process_ir_sensor()
-process_water_sensor()
+while True :
+    Data = [[0,0],[0,0],[0,0]]
+    MailBody =[["x","y"]]
+    newConnection = Connection(path)
+    newConnection.read_csv_file(path)
+    Data = newConnection.list_of_list
+    print(Data)
+    newConnection1 = Connection(Mailpath)
+    newConnection1.read_csv_file(Mailpath)
+    MailBody = newConnection1.list_of_list
+    process_ir_sensor()
+    process_water_sensor()
+    time.sleep(Delay)
